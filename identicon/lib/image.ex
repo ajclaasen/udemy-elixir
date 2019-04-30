@@ -3,5 +3,5 @@ defmodule Identicon.Image do
     Contains an Image struct representing an Identicon.
   """
 
-  defstruct hex: nil, color: nil
+  defstruct hex: nil, color: nil, grid: nil
 end

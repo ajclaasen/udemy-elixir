@@ -6,21 +6,29 @@ defmodule Identicon do
   @doc """
     Generates an identicon from a given seed
   """
-  def generate(seed) do
+    def generate(seed) do
     seed
     |> hash_string
     |> pick_color
     |> build_grid
   end
 
+  @doc """
+
+  """
   def build_grid(%Identicon.Image{hex: hex} = image) do
-    hex
-    |> Enum.chunk_every(3, 3, :discard)
-    |> Enum.map(&mirror_row/1)
+    grid =
+      hex
+      |> Enum.chunk_every(3, 3, :discard)
+      |> Enum.map(&mirror_row/1)
+      |> List.flatten
+      |> Enum.with_index
+
+    %Identicon.Image{image | grid: grid}
   end
 
   @doc """
-
+    Appends the first two elements of the row to the end of the row, but mirrored.
   """
   def mirror_row(row) do
     [first, second | _tail] = row
