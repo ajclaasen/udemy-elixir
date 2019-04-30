@@ -1,18 +1,21 @@
 defmodule Identicon do
   @moduledoc """
-  Documentation for Identicon.
+    Contains methods for generating an identicon and saving it.
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Identicon.hello()
-      :world
-
+    Generates an identicon from a given seed.
   """
-  def hello do
-    :world
+  def generate_identicon(seed) do
+    seed
+    |> hash_string
+  end
+
+  @doc """
+    Generates a list of 16 bytes by hashing a string using MD5.
+  """
+  def hash_string(string) do
+    :crypto.hash(:md5, string)
+    |> :binary.bin_to_list
   end
 end
