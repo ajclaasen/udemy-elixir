@@ -12,6 +12,24 @@ defmodule Identicon do
     |> pick_color
     |> build_grid
     |> filter_even_squares
+    |> build_pixel_map
+  end
+
+  @doc """
+
+  """
+  def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+    pixel_map = Enum.map(grid, fn({_number, index}) ->
+      x = rem(index, 5) * 50
+      y = div(index, 5) * 50
+
+      top_left = {x, y}
+      bottom_right = {x + 50, y + 50}
+
+      {top_left, bottom_right}
+    end)
+
+    %Identicon.Image{image | pixel_map: pixel_map}
   end
 
   @doc """
