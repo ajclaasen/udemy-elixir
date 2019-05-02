@@ -4,7 +4,7 @@ defmodule Identicon do
   """
 
   @doc """
-    Generates an identicon from a given seed
+    Generates an identicon from a given `seed`
   """
     def generate(seed) do
     seed
@@ -13,10 +13,33 @@ defmodule Identicon do
     |> build_grid
     |> filter_even_squares
     |> build_pixel_map
+    |> draw_image
+    |> save_image(seed)
   end
 
   @doc """
+    Saves the `image` to the file system as the `filename`
+  """
+  def save_image(image, filename) do
+    File.write("#{filename}.png", image)
+  end
 
+  @doc """
+    Draws an image out of the Identicon.Image using its `color` and `pixel_map` properties
+  """
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
+    image = :egd.create(250, 250)
+    fill_color = :egd.color(color)
+
+    Enum.each(pixel_map, fn({top_left, bottom_right}) ->
+      :egd.filledRectangle(image, top_left, bottom_right, fill_color)
+    end)
+
+    :egd.render(image)
+  end
+
+  @doc """
+    Builds a pixel map out of a `grid`
   """
   def build_pixel_map(%Identicon.Image{grid: grid} = image) do
     pixel_map = Enum.map(grid, fn({_number, index}) ->
@@ -59,7 +82,7 @@ defmodule Identicon do
   end
 
   @doc """
-    Appends the first two elements of the row to the end of the row, but mirrored.
+    Appends the first two elements of the `row` to the end of the `row`, but mirrored.
   """
   def mirror_row(row) do
     [first, second | _tail] = row
@@ -74,7 +97,7 @@ defmodule Identicon do
   end
 
   @doc """
-    Hashes a string using MD5 and returns an Identicon.Image
+    Hashes a `string` using MD5 and returns an Identicon.Image
   """
   def hash_string(string) do
     hex = :crypto.hash(:md5, string)
