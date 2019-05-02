@@ -26,7 +26,8 @@ defmodule Identicon do
   end
 
   @doc """
-
+    Builds a list of 25 tuples containing a number and its digit representing the grid of the identicon.
+    Mirrors the numbers along the vertical axis.
   """
   def build_grid(%Identicon.Image{hex: hex} = image) do
     grid =
