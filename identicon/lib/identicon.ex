@@ -11,6 +11,18 @@ defmodule Identicon do
     |> hash_string
     |> pick_color
     |> build_grid
+    |> filter_even_squares
+  end
+
+  @doc """
+    Returns an Identicon.Image with only the indices that have an even number
+  """
+  def filter_even_squares(%Identicon.Image{grid: grid} = image) do
+    grid = Enum.filter(grid, fn({number, _index}) ->
+      rem(number, 2) == 0
+    end)
+
+    %Identicon.Image{image | grid: grid}
   end
 
   @doc """
