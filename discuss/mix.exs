@@ -19,7 +19,8 @@ defmodule Discuss.Mixfile do
   def application do
     [mod: {Discuss, []},
      applications: [:cowboy, :gettext, :logger, :phoenix, :phoenix_ecto,
-                    :phoenix_html, :phoenix_pubsub, :postgrex]]
+                    :phoenix_html, :phoenix_pubsub, :postgrex, :ueberauth,
+                    :ueberauth_github]]
   end
 
   # Specifies which paths to compile per environment.
@@ -37,7 +38,9 @@ defmodule Discuss.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
-     {:postgrex, ">= 0.0.0"}]
+     {:postgrex, ">= 0.0.0"},
+     {:ueberauth, "~> 0.3"},
+     {:ueberauth_github, "~> 0.4"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
